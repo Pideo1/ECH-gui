@@ -4,9 +4,9 @@
 
 仅供测试学习使用
 
-目前仅在Archlinux ~小南梁Linux~ 上测试通过，其他发行版未测试。
+目前仅在Archlinux ~小南梁Linux~ 上测试，其他发行版未测试。
 
-整套代码由ai编写，
+整套代码由ai编写，所以崩溃了较高
 
 部分文件需要从telegram下载，如果没有telegram账号，请从release中下载
 
@@ -50,3 +50,6 @@ cp ECH-gui/ech-worker.desktop ~/.local/share/applications/
 <img width="870" height="952" alt="image" src="https://github.com/user-attachments/assets/b7642353-b558-4a74-836a-5a371c72f7ac" />
 
 按照自身需求填写相关内容，模板已经填了，
+
+目录结构
+<img width="990" height="698" alt="image" src="https://github.com/user-attachments/assets/10cb1cb6-c3cc-42c5-bdb9-e93d23caf9e1" />
