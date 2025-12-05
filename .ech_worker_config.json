@@ -1,0 +1,9 @@
+{
+  "dns": "dns.alidns.com/dns-query",
+  "ech": "cloudflare-ech.com",
+  "f": "a.b.workers.dev:443",
+  "ip": "104.20.22.10",
+  "l": "",
+  "token": "",
+  "ignore_hosts": "localhost,127.0.0.1,::1,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12,100.64.0.0/10"
+}
