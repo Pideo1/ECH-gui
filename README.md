@@ -6,7 +6,7 @@
 
 目前仅在Archlinux ~小南梁Linux~ 上测试，其他发行版未测试。
 
-整套代码由ai编写，所以崩溃了较高
+整套代码由ai编写，所以崩溃概率较高
 
 部分文件需要从telegram下载，如果没有telegram账号，请从release中下载
 
