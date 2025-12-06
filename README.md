@@ -22,7 +22,7 @@ ech_worker_gui.py GUI客户端,记得 授予可执行权限 `chmod +x ech_worker
 ech-worker.desktop 快捷启动文件，放到 ~/.local/share/applications/ 目录下，用的是图标包中 soundcloud的图标
 
 worker.js，来自于 https://t.me/CF_NAT/38899 ，可以在release中下载，作者给的代码里 token 默认为空，尽量自己修改为自己的token,部署到cloudflare worker,可以不绑定自定义域名，
-CF_FALLBACK_IPS 按需修改，填proxyip（纯ipv4或ipv6），ipv6地址需要用中括号包起来，需要开放的端口与 “服务器地址”填写的ip相同，通常情况开放443
+CF_FALLBACK_IPS 按需修改，填proxyip（纯ipv4或ipv6,不追加增加端口），ipv6地址需要用中括号包起来，需要开放的端口与 “服务器地址”填写的ip相同，通常情况开放443
 
 <img width="1070" height="1051" alt="image" src="https://github.com/user-attachments/assets/403c5a69-3f35-4454-921d-66f7c8072a6f" />
 
