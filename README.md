@@ -7,6 +7,8 @@
 ECH-worker目前的缺陷是 重度依赖 cloudflare-ech.com ，如果cloudflare-ech.com 被墙，ECH-worker 就挂了，
 参考 [Cloudflare官方文档]:https://developers.cloudflare.com/ssl/edge-certificates/ech/#how-ech-works
 
+<!-- 引用片段 -->
+*The outer ClientHello contains a common name (SNI) that represents that a user is trying to visit an encrypted website on Cloudflare. We chose **cloudflare-ech.com** as the SNI that all websites will share on Cloudflare. Because Cloudflare controls that domain, we have the appropriate certificates to be able to negotiate a TLS handshake for that server name.*
 
 目前仅在Archlinux ~小南梁Linux~ 上测试，其他发行版未测试。
 
