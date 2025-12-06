@@ -2,7 +2,11 @@
 
 ⚠️⚠️⚠️⚠️
 
-仅供测试学习使用
+仅供测试学习使用, 
+
+ECH-worker目前的缺陷是 重度依赖 cloudflare-ech.com ，如果cloudflare-ech.com 被墙，ECH-worker 就挂了，
+参考 [Cloudflare官方文档]:https://developers.cloudflare.com/ssl/edge-certificates/ech/#how-ech-works
+
 
 目前仅在Archlinux ~小南梁Linux~ 上测试，其他发行版未测试。
 
