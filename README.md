@@ -28,3 +28,24 @@ route分流规则 可用用custom
 blacklist.txt和domain.txt 均需要遵循 正则表达式，
 blacklist.txt 可以从 [anti-ad.net/domain](https://anti-ad.net/domains.txt) 下载
 domain.txt 建议从 gfwlist 那里选一些常用的填上
+
+
+custom分流规则
+```
+
+
+                                        关闭连接
+                                            |
+                                           (是)
+                                            |
+                                            |                                            
+发起方-----> 是否为域名——(是)—>检查域名是否在blacklist.txt中--(不是)-->域名是否在domain.txt中-(是)->代理
+                |                                                                        |                    |
+                |                                                                        |                    |
+                ----(不是)--->检查ip是否命中 中国ip-----------（不是）-------------|-----------------
+                                        |                                                |
+                                        |-------------------------------------------------
+                                    （是）
+                                        |
+                                        直连
+```
