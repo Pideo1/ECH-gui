@@ -14,6 +14,8 @@ ECH-worker目前的缺陷是 重度依赖` cloudflare-ech.com` ，如果cloudfla
 
 整套代码由ai编写，所以崩溃概率较高
 
+基础源码从[这里](https://github.com/SunshineList/luci-app-ech-workers/blob/main/server/echo-worker.go)拿的 
+
 route分流规则 可用用custom 
 
 即 `-routing custom`
