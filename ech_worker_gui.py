@@ -544,28 +544,37 @@ class ECHWorkerGUI(Gtk.Window):
             
             # 测试请求 - 使用流式请求，一旦收到"success"就结束
             start_time = time.time()
-            #response = requests.get('http://www.google.com/generate_204', proxies=proxies, timeout=3, stream=True)
-            response = requests.get('http://detectportal.firefox.com/', proxies=proxies, timeout=3, stream=True)
-            
+            total_timeout = 5  # 总体超时时间（秒），超过立即终止测试并返回超时
+            response = requests.get('http://detectportal.firefox.com/', proxies=proxies, timeout=total_timeout, stream=True)
+
             # 逐块读取响应内容
             received_data = b''
             success_found = False
             for chunk in response.iter_content(chunk_size=128):
+                # 如果超过总体超时，立即关闭响应并返回超时
+                if (time.time() - start_time) > total_timeout:
+                    # 超时：按照要求将 end_time 置为 999，并返回该延迟值以便 UI 显示
+                    end_time = 999
+                    try:
+                        response.close()
+                    except Exception:
+                        pass
+                    return end_time, Gdk.RGBA(1, 0, 0, 1)
+
                 if chunk:
                     received_data += chunk
                     # 检查是否包含"success"字符串
                     if b"success" in received_data:
                         success_found = True
                         break
-                
-                # 检查是否超时
-                if (time.time() - start_time) > 3:
-                    break
-            
+
             end_time = time.time()
-            
+
             # 关闭响应
-            response.close()
+            try:
+                response.close()
+            except Exception:
+                pass
             
             if success_found:
                 # 计算延迟（毫秒）
@@ -583,7 +592,9 @@ class ECHWorkerGUI(Gtk.Window):
                 return None, Gdk.RGBA(1, 0, 0, 1)  # 红色（超时或失败）
                 
         except requests.Timeout:
-            return None, Gdk.RGBA(1, 0, 0, 1)  # 超时
+            # 超时：设置 end_time 为 999 并返回该延迟值
+            end_time = 999
+            return end_time, Gdk.RGBA(1, 0, 0, 1)  # 超时
         except Exception as e:
             self.append_log(f"延迟测试失败: {str(e)}")
             return None, None  # 测试失败
@@ -595,11 +606,22 @@ class ECHWorkerGUI(Gtk.Window):
             # 进行延迟测试
             latency, color = self.test_latency()
             if latency is not None:
-                # 显示延迟测试结果
-                self.status_label.set_text(f"服务已启动 - 延迟: {latency} 毫秒")
-                if color:
-                    self.status_label.override_color(Gtk.StateFlags.NORMAL, color)
-                self.append_log(f"延迟测试结果: {latency} 毫秒")
+                # 如果是约定的超时标识 (999)，显示为超时
+                if latency == 999:
+                    # 仅将“超时”一词用红色显示，保留其他文字默认颜色
+                    try:
+                        self.status_label.set_use_markup(True)
+                        self.status_label.set_markup("服务已启动 - <span foreground='#ff0000'>超时</span>")
+                    except Exception:
+                        # 回退到普通文本
+                        self.status_label.set_text("服务已启动 - 超时")
+                    self.append_log("延迟测试结果: 超时")
+                else:
+                    # 显示延迟测试结果
+                    self.status_label.set_text(f"服务已启动 - 延迟: {latency} 毫秒")
+                    if color:
+                        self.status_label.override_color(Gtk.StateFlags.NORMAL, color)
+                    self.append_log(f"延迟测试结果: {latency} 毫秒")
             else:
                 # 测试失败
                 self.append_log("延迟测试失败: 无法连接到服务或超时")
@@ -608,6 +630,7 @@ class ECHWorkerGUI(Gtk.Window):
         
         # 返回True以保持定时器继续运行
         return True
+
 
 
     def on_stop_clicked(self, widget):
@@ -905,11 +928,20 @@ class ECHWorkerGUI(Gtk.Window):
             # 进行延迟测试
             latency, color = self.test_latency()
             if latency is not None:
-                # 显示延迟测试结果
-                self.status_label.set_text(f"服务已启动 - 延迟: {latency} 毫秒")
-                if color:
-                    self.status_label.override_color(Gtk.StateFlags.NORMAL, color)
-                self.append_log(f"延迟测试结果: {latency} 毫秒")
+                # 如果是约定的超时标识 (999)，显示为超时
+                if latency == 999:
+                    try:
+                        self.status_label.set_use_markup(True)
+                        self.status_label.set_markup("服务已启动 - <span foreground='#ff0000'>超时</span>")
+                    except Exception:
+                        self.status_label.set_text("服务已启动 - 超时")
+                    self.append_log("延迟测试结果: 超时")
+                else:
+                    # 显示延迟测试结果
+                    self.status_label.set_text(f"服务已启动 - 延迟: {latency} 毫秒")
+                    if color:
+                        self.status_label.override_color(Gtk.StateFlags.NORMAL, color)
+                    self.append_log(f"延迟测试结果: {latency} 毫秒")
             else:
                 # 测试失败
                 self.append_log("延迟测试失败: 无法连接到服务或超时")
@@ -924,11 +956,20 @@ class ECHWorkerGUI(Gtk.Window):
             # 进行延迟测试
             latency, color = self.test_latency()
             if latency is not None:
-                # 显示延迟测试结果
-                self.status_label.set_text(f"服务已启动 - 延迟: {latency} 毫秒")
-                if color:
-                    self.status_label.override_color(Gtk.StateFlags.NORMAL, color)
-                self.append_log(f"延迟测试结果: {latency} 毫秒")
+                # 如果是约定的超时标识 (999)，显示为超时
+                if latency == 999:
+                    try:
+                        self.status_label.set_use_markup(True)
+                        self.status_label.set_markup("服务已启动 - <span foreground='#ff0000'>超时</span>")
+                    except Exception:
+                        self.status_label.set_text("服务已启动 - 超时")
+                    self.append_log("延迟测试结果: 超时")
+                else:
+                    # 显示延迟测试结果
+                    self.status_label.set_text(f"服务已启动 - 延迟: {latency} 毫秒")
+                    if color:
+                        self.status_label.override_color(Gtk.StateFlags.NORMAL, color)
+                    self.append_log(f"延迟测试结果: {latency} 毫秒")
             else:
                 # 测试失败
                 self.append_log("延迟测试失败: 无法连接到服务或超时")
