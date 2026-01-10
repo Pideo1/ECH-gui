@@ -1,4 +1,6 @@
 archive\.org$
+firefox\.com$
+mozilla\.org$
 google\.com$
 \.google$
 \.goog$
